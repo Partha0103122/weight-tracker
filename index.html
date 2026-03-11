@@ -368,10 +368,10 @@ function renderChart(f){
   const labels=f.map(d=>d.date),data=f.map(d=>d.weight);
   const minW=Math.min(...data,goalWeight),maxW=Math.max(...data,goalWeight),pad=(maxW-minW)*.15||2;
   const fmtX=date=>{
-    const d=new Date(date);
-    if(period==='1W') return d.toLocaleDateString('en',{weekday:'short'});
-    if(period==='1M') return d.toLocaleDateString('en',{day:'numeric',month:'short'});
-    return d.toLocaleDateString('en',{month:'short',year:'2-digit'});
+    const d=new Date(date+'T00:00:00');
+    if(period==='1W') return d.toLocaleDateString('en',{weekday:'short',day:'numeric'});
+    if(period==='1M'||f.length<=60) return d.toLocaleDateString('en',{day:'numeric',month:'short'});
+    return d.toLocaleDateString('en',{day:'numeric',month:'short',year:'2-digit'});
   };
   if(chart) chart.destroy();
   chart=new Chart(canvas,{
